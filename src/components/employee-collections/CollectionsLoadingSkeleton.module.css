@@ -1,0 +1,22 @@
+.section {
+  margin-bottom: 28px;
+}
+
+.headerLine {
+  height: 24px;
+  width: 220px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 14px;
+}
+
+.totalCard {
+  height: 56px;
+  width: 260px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 16px;
+}
+
+.chart {
+  height: 320px;
+  border-radius: var(--radius-lg);
+}

@@ -1,0 +1,67 @@
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 16px;
+}
+
+.header {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--color-navy);
+  margin-bottom: 10px;
+}
+
+.chartWrap {
+  direction: ltr;
+}
+
+.empty {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  padding: 60px 0;
+  text-align: center;
+}
+
+.tooltip {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-hover);
+  padding: 10px 12px;
+  direction: rtl;
+  font-family: var(--font-family);
+}
+
+.tooltipDate {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.tooltipDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tooltipLabel {
+  color: var(--color-text-secondary);
+  flex: 1;
+}
+
+.tooltipValue {
+  font-weight: 700;
+  color: var(--color-navy);
+}

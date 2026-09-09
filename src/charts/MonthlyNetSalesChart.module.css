@@ -1,0 +1,96 @@
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 16px;
+}
+
+.header {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--color-navy);
+  margin-bottom: 10px;
+}
+
+.chartWrap {
+  direction: ltr;
+}
+
+.empty {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  padding: 60px 0;
+  text-align: center;
+}
+
+.tooltip {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-hover);
+  padding: 10px 12px;
+  direction: rtl;
+  font-family: var(--font-family);
+}
+
+.tooltipMonth {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+}
+
+.tooltipLabel {
+  color: var(--color-text-secondary);
+}
+
+.tooltipValue {
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  direction: rtl;
+
+  gap: 28px;
+
+  margin-bottom: 12px;
+  padding-right: 4px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 12px;
+  color: var(--color-text-secondary);
+
+  white-space: nowrap;
+}
+
+.legendColor {
+  width: 10px;
+  height: 10px;
+
+  border-radius: 2px;
+
+  flex-shrink: 0;
+}
+
+.legendText {
+  line-height: 1;
+}

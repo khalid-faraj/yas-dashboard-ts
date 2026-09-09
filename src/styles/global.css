@@ -1,0 +1,124 @@
+:root {
+  --color-bg: #f7f9fc;
+  --color-surface: #ffffff;
+  --color-border: #e7eaf0;
+  --color-primary: #1688e8;
+  --color-primary-soft: #e8f3fd;
+  --color-navy: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9aa3af;
+  --color-success: #16a34a;
+  --color-success-soft: #eafaf0;
+  --color-warning: #f59e0b;
+  --color-warning-soft: #fef6e7;
+  --color-danger: #ef4444;
+  --color-danger-soft: #fdedee;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --shadow-soft: 0 1px 2px rgba(17, 24, 39, 0.04), 0 4px 12px rgba(17, 24, 39, 0.04);
+  --shadow-hover: 0 2px 4px rgba(17, 24, 39, 0.06), 0 8px 20px rgba(17, 24, 39, 0.06);
+
+  --sidebar-width: 240px;
+  --header-height: 64px;
+
+  --font-family: 'Tajawal', 'Segoe UI', Tahoma, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-navy);
+  font-family: var(--font-family);
+  direction: rtl;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'tnum' 1;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Clip the off-canvas mobile sidebar's overscroll leak — scoped to mobile
+   only, since applying this on desktop breaks the sidebar's
+   `position: sticky` (any ancestor with non-visible overflow disables
+   sticky positioning). */
+@media (max-width: 900px) {
+  html,
+  body {
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+/* Scrollbar (Webkit) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d7dce4;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c2c9d4;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #eef1f5 25%, #f7f9fb 37%, #eef1f5 63%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
