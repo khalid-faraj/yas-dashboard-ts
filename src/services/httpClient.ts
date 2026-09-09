@@ -1,11 +1,23 @@
-import axios, { AxiosError } from 'axios';
-import type { ApiError } from '../types/api';
+import axios, { AxiosError } from "axios";
+import type { ApiError } from "../types/api";
 
-const baseURL = import.meta.env.VITE_API_BASE_URL || '';
+
+const AUTH_TOKEN_STORAGE_KEY = "auth_token";
+
+function getAccessToken(): string | null {
+  return localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
+  // return "هنا التشفير ";
+}
+
+
+const baseURL = "https://yas.it.com";
 
 export const httpClient = axios.create({
   baseURL,
   timeout: 30000,
+  headers: {
+    Authorization: `Bearer ${getAccessToken()}`,
+  },
 });
 
 // Central place to inject authentication once a token strategy exists.
@@ -29,10 +41,10 @@ httpClient.interceptors.response.use(
     const message =
       axiosError.response?.data?.message ||
       axiosError.message ||
-      'Unknown error';
+      "Unknown error";
 
     const normalized: ApiError = { status, message, raw: error };
 
     return Promise.reject(normalized);
-  }
+  },
 );

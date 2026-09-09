@@ -1,5 +1,5 @@
-import { Link, useLocation } from 'react-router-dom';
-import styles from './Sidebar.module.css';
+import { Link, useLocation } from "react-router-dom";
+import styles from "./Sidebar.module.css";
 
 export interface SidebarProps {
   isOpen: boolean;
@@ -14,29 +14,38 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { key: 'sales', label: 'إحصائيات المبيعات', icon: '📊', to: '/sales' },
   {
-    key: 'monthly',
-    label: 'إحصائيات المبيعات الشهرية',
-    icon: '📅',
-    to: '/sales/monthly',
+    key: "sales",
+    label: "إحصائيات المبيعات",
+    icon: "📊",
+    to: "/cpanel/dashboard/sales",
   },
   {
-    key: 'employee-collections',
-    label: 'إحصائيات تحصيل البائعين',
-    icon: '💵',
-    to: '/employee-collections',
+    key: "monthly",
+    label: "إحصائيات المبيعات الشهرية",
+    icon: "📅",
+    to: "/cpanel/dashboard/sales/monthly",
   },
   {
-    key: 'financial-balances',
-    label: 'الأرصدة المالية',
-    icon: '💳',
-    to: '/financial-balances',
+    key: "employee-collections",
+    label: "إحصائيات تحصيل البائعين",
+    icon: "💵",
+    to: "/cpanel/dashboard/employee-collections",
+  },
+  {
+    key: "financial-balances",
+    label: "الأرصدة المالية",
+    icon: "💳",
+    to: "/cpanel/dashboard/financial-balances",
   },
 ];
 
-export default function Sidebar({ isOpen, onClose }: SidebarProps): JSX.Element {
+export default function Sidebar({
+  isOpen,
+  onClose,
+}: SidebarProps): JSX.Element {
   const location = useLocation();
+  const footerSubtitle = localStorage.getItem("auth_user_name") ?? "";
 
   return (
     <>
@@ -44,7 +53,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps): JSX.Element 
         <div className={styles.overlay} onClick={onClose} aria-hidden="true" />
       )}
       <aside
-        className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ''}`}
+        className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ""}`}
       >
         <div className={styles.brand}>
           <div className={styles.brandMark}>YAS</div>
@@ -56,7 +65,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps): JSX.Element 
             const isActive = item.to !== null && location.pathname === item.to;
             const commonProps = {
               className: `${styles.navItem} ${
-                isActive ? styles.navItemActive : ''
+                isActive ? styles.navItemActive : ""
               }`,
             };
 
@@ -91,7 +100,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps): JSX.Element 
         <div className={styles.footer}>
           <div className={styles.footerCard}>
             <div className={styles.footerTitle}>مدير النظام</div>
-            <div className={styles.footerSubtitle}>إسلام فخري</div>
+            <div className={styles.footerSubtitle}>{footerSubtitle}</div>
           </div>
         </div>
       </aside>

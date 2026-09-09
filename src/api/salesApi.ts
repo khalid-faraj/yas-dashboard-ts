@@ -1,18 +1,18 @@
-import { httpClient } from '../services/httpClient';
+import { httpClient } from "../services/httpClient";
 import type {
   SalesApiPageParams,
   SalesApiResponse,
   SalesRecord,
   SalesReportParams,
-} from '../types/api';
+} from "../types/api";
 
-const SALES_ENDPOINT = '/api/v2/reports-accounts/product-sales/';
+const SALES_ENDPOINT = "/api/v2/reports-accounts/product-sales/";
 
-const APP_LABEL = 'reports-accounts';
-const MODEL_LABEL = 'product-sales';
+const APP_LABEL = "reports-accounts";
+const MODEL_LABEL = "product-sales";
 
 // MUST always include all three types.
-const REQUIRED_TYPE_SALE_IN = 'sale,return_sale,service_sale';
+const REQUIRED_TYPE_SALE_IN = "sale,return_sale,service_sale";
 
 // Internal API page size.
 // The user does not control this.
@@ -20,7 +20,7 @@ const PAGE_SIZE = 1000;
 
 const MAX_PAGES_SAFETY_LIMIT = 500;
 
-const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
+
 
 /**
  * Fetch one page from the sales API.
@@ -32,7 +32,7 @@ async function fetchPage({
 }: SalesApiPageParams): Promise<SalesApiResponse> {
   const response = await httpClient.get<SalesApiResponse>(SALES_ENDPOINT, {
     headers: {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      Authorization: `Bearer ${getAccessToken()}`,
     },
 
     params: {
@@ -69,7 +69,7 @@ function extractResults(payload: SalesApiResponse | undefined): SalesRecord[] {
 function hasNextPage(
   payload: SalesApiResponse | undefined,
   currentPage: number,
-  resultsLength: number
+  resultsLength: number,
 ): boolean {
   const data = payload?.data;
 
@@ -78,12 +78,12 @@ function hasNextPage(
   }
 
   // DRF-style pagination
-  if (typeof data.next !== 'undefined') {
+  if (typeof data.next !== "undefined") {
     return Boolean(data.next);
   }
 
   // Count-based pagination
-  if (typeof data.count === 'number') {
+  if (typeof data.count === "number") {
     const seenSoFar = currentPage * PAGE_SIZE;
 
     return seenSoFar < data.count && resultsLength > 0;
@@ -102,11 +102,7 @@ export async function getSalesReport({
   transDateLte,
 }: SalesReportParams): Promise<SalesRecord[]> {
   if (!transDateGte || !transDateLte) {
-    throw new Error('transDateGte and transDateLte are required');
-  }
-
-  if (!ACCESS_TOKEN) {
-    throw new Error('VITE_ACCESS_TOKEN is missing. Please add it to .env.local');
+    throw new Error("transDateGte and transDateLte are required");
   }
 
   let page = 1;

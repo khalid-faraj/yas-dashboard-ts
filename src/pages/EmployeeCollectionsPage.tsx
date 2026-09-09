@@ -17,7 +17,7 @@ export default function EmployeeCollectionsPage(): JSX.Element {
     employeesChartData,
     topClientsChartData,
     employeesTotal,
-    topClientsTotal,
+    // topClientsTotal,
     runReport,
     retry,
   } = useEmployeeCollections();

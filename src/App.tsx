@@ -1,27 +1,39 @@
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
-import AppLayout from './components/layout/AppLayout';
-import SalesDashboardPage from './pages/SalesDashboardPage';
-import MonthlySalesStatsPage from './pages/MonthlySalesStatsPage';
-import FinancialBalancesPage from './pages/FinancialBalancesPage';
-import EmployeeCollectionsPage from './pages/EmployeeCollectionsPage';
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
+import AppLayout from "./components/layout/AppLayout";
+import SalesDashboardPage from "./pages/SalesDashboardPage";
+import MonthlySalesStatsPage from "./pages/MonthlySalesStatsPage";
+import FinancialBalancesPage from "./pages/FinancialBalancesPage";
+import EmployeeCollectionsPage from "./pages/EmployeeCollectionsPage";
 
 export default function App(): JSX.Element {
   return (
     <HashRouter>
       <AppLayout>
         <Routes>
-          <Route path="/" element={<Navigate to="/sales" replace />} />
-          <Route path="/sales" element={<SalesDashboardPage />} />
-          <Route path="/sales/monthly" element={<MonthlySalesStatsPage />} />
           <Route
-            path="/financial-balances"
+            path="/cpanel/dashboard"
+            element={<Navigate to="/cpanel/dashboard/sales" replace />}
+          />
+          <Route
+            path="/cpanel/dashboard/sales"
+            element={<SalesDashboardPage />}
+          />
+          <Route
+            path="/cpanel/dashboard/sales/monthly"
+            element={<MonthlySalesStatsPage />}
+          />
+          <Route
+            path="/cpanel/dashboard/financial-balances"
             element={<FinancialBalancesPage />}
           />
           <Route
-            path="/employee-collections"
+            path="/cpanel/dashboard/employee-collections"
             element={<EmployeeCollectionsPage />}
           />
-          <Route path="*" element={<Navigate to="/sales" replace />} />
+          <Route
+            path="*"
+            element={<Navigate to="/cpanel/dashboard/sales" replace />}
+          />
         </Routes>
       </AppLayout>
     </HashRouter>
