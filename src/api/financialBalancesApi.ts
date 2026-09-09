@@ -11,7 +11,6 @@ const SUB_ACCOUNTS_ENDPOINT = '/api/v2/dropdown/sub-accounts/';
 const TYPE_ACCOUNT = 1;
 const PAGE_SIZE = 100;
 
-const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 
 /**
  * Fetches every sub-account (treasuries, banks, wallets, ...) used to build
@@ -22,9 +21,7 @@ export async function getFinancialSubAccounts(): Promise<SubAccountRecord[]> {
   const response = await httpClient.get<SubAccountsApiResponse>(
     SUB_ACCOUNTS_ENDPOINT,
     {
-      headers: {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-      },
+      
 
       params: {
         type_account: TYPE_ACCOUNT,

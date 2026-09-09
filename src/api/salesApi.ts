@@ -20,8 +20,6 @@ const PAGE_SIZE = 1000;
 
 const MAX_PAGES_SAFETY_LIMIT = 500;
 
-
-
 /**
  * Fetch one page from the sales API.
  */
@@ -31,10 +29,6 @@ async function fetchPage({
   page,
 }: SalesApiPageParams): Promise<SalesApiResponse> {
   const response = await httpClient.get<SalesApiResponse>(SALES_ENDPOINT, {
-    headers: {
-      Authorization: `Bearer ${getAccessToken()}`,
-    },
-
     params: {
       app_label: APP_LABEL,
       model_label: MODEL_LABEL,

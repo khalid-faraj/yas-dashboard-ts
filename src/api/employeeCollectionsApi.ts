@@ -7,7 +7,6 @@ import type {
 
 const CASH_COLLECTION_ENDPOINT = '/api/v2/reports-accounts/cash-collection/';
 
-const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
 
 /**
  * Fetches the employee cash-collection report for an optional date range
@@ -23,9 +22,7 @@ export async function getEmployeeCashCollections(
   const response = await httpClient.get<CashCollectionApiResponse>(
     CASH_COLLECTION_ENDPOINT,
     {
-      headers: {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-      },
+      
       params: {
         from_date,
         to_date,

@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./components/layout/AppLayout";
 import SalesDashboardPage from "./pages/SalesDashboardPage";
 import MonthlySalesStatsPage from "./pages/MonthlySalesStatsPage";
@@ -7,7 +7,7 @@ import EmployeeCollectionsPage from "./pages/EmployeeCollectionsPage";
 
 export default function App(): JSX.Element {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <AppLayout>
         <Routes>
           <Route
@@ -36,6 +36,6 @@ export default function App(): JSX.Element {
           />
         </Routes>
       </AppLayout>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
