@@ -10,7 +10,7 @@ export interface SubAccountRecord {
   pk: number;
   name: string;
   /** Current balance. Positive or negative. */
-  rest: number;
+  rest_value: number;
 }
 
 export interface SubAccountsPage {

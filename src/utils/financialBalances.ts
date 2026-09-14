@@ -77,7 +77,7 @@ function buildGroup(
     icon: meta.icon,
     items,
     count: items.length,
-    total: items.reduce((sum, item) => sum + item.rest, 0),
+    total: items.reduce((sum, item) => sum + item.rest_value, 0),
   };
 }
 

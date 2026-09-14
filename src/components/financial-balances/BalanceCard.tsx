@@ -12,7 +12,7 @@ function getInitial(name: string): string {
 }
 
 export default function BalanceCard({ item }: BalanceCardProps): JSX.Element {
-  const isNegative = item.rest < 0;
+  const isNegative = item.rest_value < 0;
 
   return (
     <div className={`${styles.card} ${styles[`accent_${item.category}`]}`}>
@@ -26,7 +26,7 @@ export default function BalanceCard({ item }: BalanceCardProps): JSX.Element {
       <div className={styles.footer}>
         <div className={styles.balanceLabel}>الرصيد الحالي</div>
         <div className={`${styles.balanceValue} ${isNegative ? styles.negative : ''}`}>
-          {formatCurrency(item.rest, { compact: false })}
+          {formatCurrency(item.rest_value, { compact: false })}
         </div>
       </div>
     </div>
