@@ -74,13 +74,13 @@ export default function SalesTrendChart({ data }: SalesTrendChartProps) {
             <XAxis
               dataKey="date"
               tickFormatter={(v: string) => formatDate(v)}
-              tick={{ fontSize: 11, fill: '#9aa3af' }}
+              tick={{ fontSize: 11, fill: '#111827' }}
               axisLine={{ stroke: '#e7eaf0' }}
               tickLine={false}
             />
             <YAxis
               tickFormatter={(v: number) => formatCurrency(v)}
-              tick={{ fontSize: 11, fill: '#9aa3af' }}
+              tick={{ fontSize: 11, fill: '#111827' }}
               axisLine={false}
               tickLine={false}
               width={70}

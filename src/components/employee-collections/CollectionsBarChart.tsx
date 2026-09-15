@@ -124,7 +124,7 @@ export default function CollectionsBarChart({
           <XAxis
             type="number"
             tickFormatter={(value: number) => formatCurrency(value)}
-            tick={{ fontSize: 11, fill: '#9aa3af' }}
+            tick={{ fontSize: 11, fill: '#111827' }}
             axisLine={false}
             tickLine={false}
           />
@@ -133,7 +133,7 @@ export default function CollectionsBarChart({
             type="category"
             dataKey="name"
             width={180}
-            tick={{ fontSize: 12, fill: '#9aa3af' }}
+            tick={{ fontSize: 12, fill: '#111827' }}
             axisLine={false}
             tickLine={false}
           />
