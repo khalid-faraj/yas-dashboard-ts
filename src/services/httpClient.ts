@@ -43,6 +43,11 @@ httpClient.interceptors.response.use(
       axiosError.message ||
       "Unknown error";
 
+    if (status === 401) {
+      const redirectPath = `${window.location.pathname}${window.location.search}`;
+      window.location.href = `https://yas.it.com/cpanel/v2/store/login?redirect=${encodeURIComponent(redirectPath)}`;
+    }
+
     const normalized: ApiError = { status, message, raw: error };
 
     return Promise.reject(normalized);
