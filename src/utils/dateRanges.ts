@@ -136,13 +136,27 @@ export function getQuickRanges(): QuickRangeOption[] {
     },
 
     {
-      key: 'last7',
-      label: 'آخر 7 أيام',
+      key: 'lastWeek',
+      label: 'آخر أسبوع',
 
-      resolve: () => ({
-        from: startOfDay(addDays(todayStart, -6)),
-        to: todayEnd,
-      }),
+      resolve: () => {
+        // Week starts on Saturday. JS getDay(): 0=Sun,1=Mon,...,6=Sat.
+        const dayOfWeek = now.getDay();
+        const daysSinceThisWeekSaturday = (dayOfWeek - 6 + 7) % 7;
+
+        const thisWeekSaturday = addDays(
+          todayStart,
+          -daysSinceThisWeekSaturday
+        );
+
+        const lastWeekSaturday = addDays(thisWeekSaturday, -7);
+        const lastWeekFriday = addDays(thisWeekSaturday, -1);
+
+        return {
+          from: startOfDay(lastWeekSaturday),
+          to: endOfDay(lastWeekFriday),
+        };
+      },
     },
 
     {

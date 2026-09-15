@@ -12,7 +12,7 @@ export default function ReturnsSellers({
   const max = data.length > 0 ? data[0].value : 0;
   const items = data.map((s) => ({
     name: s.name,
-    displayValue: `${formatCurrency(s.value)} · ${formatNumber(s.quantity)} وحدة`,
+    displayValue: `${formatCurrency(s.value)} · ${formatNumber(s.quantity)} قطعة`,
     percentOfTop: max > 0 ? (s.value / max) * 100 : 0,
   }));
   return (

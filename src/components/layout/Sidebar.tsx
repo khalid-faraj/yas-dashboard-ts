@@ -100,7 +100,7 @@ export default function Sidebar({
         <div className={styles.footer}>
           <div className={styles.footerCard}>
             <div className={styles.footerTitle}>مدير النظام</div>
-            <div className={styles.footerSubtitle}>{footerSubtitle}</div>
+            <div className={styles.footerSubtitle}>إسلام فخري</div>
           </div>
         </div>
       </aside>

@@ -111,3 +111,13 @@ export function toApiDateString(date: string | Date | null | undefined): string 
   const day = String(d.getDate()).padStart(2, '0');
   return `${y}-${m}-${day}`;
 }
+
+export function truncateText(text: string, maxLength: number): string {
+  const trimmed = text.trim();
+
+  if (trimmed.length <= maxLength) {
+    return trimmed;
+  }
+
+  return `${trimmed.slice(0, maxLength).trimEnd()}…`;
+}

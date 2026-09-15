@@ -57,12 +57,12 @@
 }
 
 .legendPct {
-  color: var(--color-text-secondary);
+  color: var(--color-navy);
   font-weight: 600;
 }
 
 .legendValue {
-  color: var(--color-text-secondary);
+  color: var(--color-navy);
   min-width: 74px;
   text-align: left;
 }

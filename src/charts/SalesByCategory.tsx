@@ -60,7 +60,7 @@ export default function SalesByCategory({ data }: SalesByCategoryProps) {
   if (!data || data.length === 0) {
     return (
       <div className={styles.card}>
-        <div className={styles.header}>المبيعات حسب التصنيف</div>
+        <div className={styles.header}>أكثر المنتجات مبيعاً حسب القيمة</div>
 
         <div className={styles.empty}>لا توجد بيانات تصنيف لهذه الفترة</div>
       </div>
@@ -69,7 +69,7 @@ export default function SalesByCategory({ data }: SalesByCategoryProps) {
 
   return (
     <div className={styles.card}>
-      <div className={styles.header}>المبيعات حسب التصنيف</div>
+      <div className={styles.header}>أكثر المنتجات مبيعاً حسب القيمة</div>
 
       <div className={styles.body}>
         <div className={styles.chartWrap}>

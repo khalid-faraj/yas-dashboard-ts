@@ -23,6 +23,11 @@
   margin-bottom: 20px;
 }
 
+.twoCol > *,
+.twoColUneven > * {
+  min-width: 0;
+}
+
 @media (max-width: 900px) {
   .twoCol,
   .twoColUneven {

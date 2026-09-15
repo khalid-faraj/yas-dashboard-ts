@@ -146,9 +146,9 @@ export function useSalesReport(): UseSalesReportResult {
     return {
       kpis: calculateKPIs(records),
 
-      topSellers: getTopSellers(records, 5),
+      topSellers: getTopSellers(records, 25),
 
-      topCustomers: getTopCustomers(records, 5),
+      topCustomers: getTopCustomers(records, 25),
 
       topProducts: getTopProducts(records, 10),
 

@@ -5,8 +5,8 @@ import type { ApiError } from "../types/api";
 const AUTH_TOKEN_STORAGE_KEY = "auth_token";
 
 function getAccessToken(): string | null {
-  return localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
-  // return "هنا التشفير ";
+  //return localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
+  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg5NTM2NjIxLCJpYXQiOjE3ODk0NTAyMjEsImp0aSI6IjFkZTQ5ZGE0M2RiMTQ1MWE5NTA2ZjJhODcwNmFhYTFkIiwidXNlcl9pZCI6IjM0In0.pQkkgIZsWBqEUX-PjhK6Kz0vvHhfArqmdZOOcEOd638";
 }
 
 
