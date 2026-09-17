@@ -5,9 +5,12 @@ import EmployeeTotalCard from '../components/employee-collections/EmployeeTotalC
 import CollectionsLoadingSkeleton from '../components/employee-collections/CollectionsLoadingSkeleton';
 import CollectionsEmptyState from '../components/employee-collections/CollectionsEmptyState';
 import CollectionsErrorState from '../components/employee-collections/CollectionsErrorState';
+import CollectionsTotalCard from '../components/employee-collections/CollectionsTotalCard';
 
 import { useCollectionsEmployees } from '../hooks/useCollectionsEmployees';
 import { useEmployeeCollections } from '../hooks/useEmployeeCollections';
+
+import styles from './SalesDashboardPage.module.css';
 
 export default function EmployeeCollectionsPage(): JSX.Element {
   const { employees, isLoading: employeesLoading } = useCollectionsEmployees();
@@ -56,7 +59,7 @@ export default function EmployeeCollectionsPage(): JSX.Element {
             />
 
             <RankingList
-              title="العملاء اللي تم التحصيل منهم"
+              title="العملاء الذين تم التحصيل منهم"
               items={clientsRanking}
               emptyLabel="لا توجد تحصيلات لهذا البائع في هذه الفترة"
             />
@@ -68,6 +71,11 @@ export default function EmployeeCollectionsPage(): JSX.Element {
           // medals on the top 3 — then every client, ranked, across all
           // vendors.
           <>
+           <CollectionsTotalCard
+              label="إجمالي تحصيلات كل البائعين"
+              total={totalCollection}
+            />
+            
             <RankingList
               title="تحصيلات البائعين"
               items={employeesRanking}
@@ -76,9 +84,11 @@ export default function EmployeeCollectionsPage(): JSX.Element {
             />
 
             <RankingList
-              title="أكثر العملاء تم التحصيل منهم"
+              title="أكثر العملاء الذين تم التحصيل منهم"
               items={clientsRanking}
               emptyLabel="لا توجد بيانات عملاء لهذه الفترة"
+              limit={25}
+              className={styles.clientsRanking}
             />
           </>
         )

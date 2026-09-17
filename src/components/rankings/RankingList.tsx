@@ -17,6 +17,9 @@ export interface RankingListProps {
   accent?: RankingListAccent;
   /** When true, ranks 1–3 show a medal emoji instead of the plain number. */
   showMedalsForTop3?: boolean;
+  /** Maximum number of rows to display. If omitted, all items are displayed. */
+  limit?: number;
+  className?: string;
 }
 
 // On small screens, cap the name at this many characters regardless of
@@ -39,20 +42,27 @@ export default function RankingList({
   emptyLabel = 'لا توجد بيانات',
   accent = 'primary',
   showMedalsForTop3 = false,
+  limit,
+  className
 }: RankingListProps): JSX.Element {
   const isMobile = useIsMobile();
 
+  const displayedItems =
+    limit !== undefined ? items.slice(0, Math.max(0, limit)) : items;
+
   return (
-    <div className={styles.card}>
+    <div className={`${styles.card} ${className ?? ''}`}>
       <div className={styles.header}>{title}</div>
 
-      {items.length === 0 ? (
+      {displayedItems.length === 0 ? (
         <div className={styles.empty}>{emptyLabel}</div>
       ) : (
         <ul className={styles.list}>
-          {items.map((item, idx) => {
+          {displayedItems.map((item, idx) => {
             const rank = idx + 1;
-            const medal = showMedalsForTop3 ? MEDALS_BY_RANK[rank] : undefined;
+            const medal = showMedalsForTop3
+              ? MEDALS_BY_RANK[rank]
+              : undefined;
 
             const displayName = isMobile
               ? truncateText(item.name, MOBILE_NAME_MAX_LENGTH)
@@ -60,22 +70,31 @@ export default function RankingList({
 
             return (
               <li key={`${item.name}-${idx}`} className={styles.row}>
-                <div className={`${styles.rank} ${medal ? styles.rankMedal : ''}`}>
+                <div
+                  className={`${styles.rank} ${medal ? styles.rankMedal : ''
+                    }`}
+                >
                   {medal ?? rank}
                 </div>
+
                 <div className={styles.rowBody}>
                   <div className={styles.rowTop}>
                     <span className={styles.name} title={item.name}>
                       {displayName}
                     </span>
-                    <span className={styles.value}>{item.displayValue}</span>
+
+                    <span className={styles.value}>
+                      {item.displayValue}
+                    </span>
                   </div>
+
                   <div className={styles.barTrack}>
                     <div
-                      className={`${styles.barFill} ${
-                        accent === 'danger' ? styles.barFillDanger : ''
-                      }`}
-                      style={{ width: `${Math.max(item.percentOfTop, 3)}%` }}
+                      className={`${styles.barFill} ${accent === 'danger' ? styles.barFillDanger : ''
+                        }`}
+                      style={{
+                        width: `${Math.max(item.percentOfTop, 3)}%`,
+                      }}
                     />
                   </div>
                 </div>

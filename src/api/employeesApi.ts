@@ -6,6 +6,9 @@ import type {
 
 const EMPLOYEES_DROPDOWN_ENDPOINT = '/api/v2/dropdown/employees/';
 
+const APP_LABEL = "reports-accounts";
+const MODEL_LABEL = "cash-collection";
+
 // Departments used to scope the vendor list, exactly as requested.
 const DEPARTMENT_IN = '07,08';
 const PAGE_SIZE = 100;
@@ -23,6 +26,8 @@ export async function getCollectionsEmployees(): Promise<EmployeeOption[]> {
     EMPLOYEES_DROPDOWN_ENDPOINT,
     {
       params: {
+        app_label: APP_LABEL,
+        model_label: MODEL_LABEL,
         department_in: DEPARTMENT_IN,
         page_size: PAGE_SIZE,
       },

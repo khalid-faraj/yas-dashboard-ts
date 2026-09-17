@@ -6,8 +6,8 @@ export interface DashboardHeaderProps {
 }
 
 export default function DashboardHeader({
-  title = 'لوحة تحكم المبيعات',
-  subtitle = 'تحليل أداء المبيعات خلال الفترة المحددة',
+  title = 'إحصائيات المبيعات',
+  subtitle = 'عرض وتحليل أداء المبيعات خلال الفترة المحددة',
 }: DashboardHeaderProps): JSX.Element {
   return (
     <div className={styles.header}>

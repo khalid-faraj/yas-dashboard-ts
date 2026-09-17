@@ -7,6 +7,8 @@ import type {
 
 const CASH_COLLECTION_ENDPOINT = "/api/v2/reports-accounts/cash-collection/";
 
+const APP_LABEL = "reports-accounts";
+const MODEL_LABEL = "cash-collection";
 /**
  * Fetch the cash-collection report from the API.
  *
@@ -22,6 +24,8 @@ async function fetchCashCollection({
     CASH_COLLECTION_ENDPOINT,
     {
       params: {
+        app_label: APP_LABEL,
+        model_label: MODEL_LABEL,
         from_date,
         to_date,
 
