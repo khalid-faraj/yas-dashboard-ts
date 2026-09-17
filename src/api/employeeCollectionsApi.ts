@@ -2,32 +2,29 @@ import { httpClient } from "../services/httpClient";
 import type {
   CashCollectionApiResponse,
   CashCollectionQueryParams,
-  EmployeeCollectionRecord,
+  CashCollectionRecord,
 } from "../types/employeeCollections";
 
 const CASH_COLLECTION_ENDPOINT = "/api/v2/reports-accounts/cash-collection/";
 
 /**
- * Fetches the employee cash-collection report for an optional date range
- * and/or set of employees. All params are optional — axios omits any
- * `undefined` value from the outgoing query string automatically, so
- * callers can pass only what they have.
+ * Fetch the cash-collection report from the API.
+ *
+ * NOTE: "emplyee" is spelled exactly as the backend expects — this is the
+ * backend's own param name, not a typo to "fix" here.
  */
-export async function getEmployeeCashCollections(
-  params: CashCollectionQueryParams,
-): Promise<EmployeeCollectionRecord[]> {
-  const { from_date, to_date, employeePks } = params;
-
+async function fetchCashCollection({
+  from_date,
+  to_date,
+  employeePks,
+}: CashCollectionQueryParams): Promise<CashCollectionApiResponse> {
   const response = await httpClient.get<CashCollectionApiResponse>(
     CASH_COLLECTION_ENDPOINT,
     {
       params: {
-        app_label: "reports-accounts",
-        model_label: "cash-collection",
         from_date,
         to_date,
-        // NOTE: "emplyee" is spelled exactly as the backend expects — this
-        // is the backend's own param name, not a typo to "fix" here.
+
         emplyee__pk__in:
           employeePks && employeePks.length > 0
             ? employeePks.join(",")
@@ -36,7 +33,31 @@ export async function getEmployeeCashCollections(
     },
   );
 
-  const results = response.data?.data;
+  return response.data;
+}
+
+/**
+ * Extract results from API response.
+ */
+function extractResults(
+  payload: CashCollectionApiResponse | undefined,
+): CashCollectionRecord[] {
+  const results = payload?.data;
 
   return Array.isArray(results) ? results : [];
+}
+
+/**
+ * Fetch the complete cash-collection report for an optional date/time
+ * range and/or set of employees.
+ *
+ * NOTE: this report is not paginated — the backend returns every matching
+ * employee/client row in a single response.
+ */
+export async function getEmployeeCashCollections(
+  params: CashCollectionQueryParams,
+): Promise<CashCollectionRecord[]> {
+  const payload = await fetchCashCollection(params);
+
+  return extractResults(payload);
 }

@@ -88,6 +88,29 @@
   box-shadow: 0 0 0 3px var(--color-primary-soft);
 }
 
+.select {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: var(--color-navy);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.select:disabled {
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
 .submitBtn {
   background: var(--color-primary);
   color: #fff;

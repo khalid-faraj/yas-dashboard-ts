@@ -3,53 +3,89 @@
  *
  * Backed by:
  *   GET /api/v2/reports-accounts/cash-collection/?from_date=...&to_date=...&emplyee__pk__in=...
+ *
+ * One row per distinct employee/client combination with at least one
+ * matching receipt in range — no more nested "winner client" or
+ * per-employee totals; those are now derived client-side.
  */
-
-export interface WinnerClient {
+export interface CashCollectionRecord {
+  employee_name: string;
   client_name: string;
   collection_amount: number;
-}
-
-/** One employee's collection summary for the selected date range. */
-export interface EmployeeCollectionRecord {
-  employee_name: string;
-  transactions_count: number;
-  /** Note: spelled exactly as the backend returns it ("emplyee", not "employee"). */
-  total_emplyee_collection: number;
-  winner_client: WinnerClient;
 }
 
 export interface CashCollectionApiResponse {
   success: boolean;
   message: string;
-  data: EmployeeCollectionRecord[];
+  data: CashCollectionRecord[];
   errors: unknown[];
 }
 
 /**
- * Query params for the request. All are optional — the backend does not
- * require every one of them to be present.
+ * Query params for the request. All optional. Dates are now full
+ * datetimes in `YYYY-MM-DD HH:MM:SS` format (space-separated, not ISO).
  */
 export interface CashCollectionQueryParams {
   from_date?: string;
   to_date?: string;
-  /** Optional list of employee pks to filter by (not currently exposed in the UI). */
+  /** Optional list of employee pks to filter by. */
   employeePks?: number[];
 }
 
-/** The three date-filter modes on the page. */
-export type CollectionsDateFilterMode = 'lastWeek' | 'currentMonth' | 'custom';
+/** The five date-filter modes on the page. */
+export type CollectionsDateFilterMode =
+  | 'today'
+  | 'yesterday'
+  | 'lastWeek'
+  | 'currentMonth'
+  | 'custom';
 
-/** A resolved `{ fromDate, toDate }` pair in `YYYY-MM-DD` (API-ready, no time). */
-export interface CollectionsDateRange {
-  fromDate: string;
-  toDate: string;
+/** A resolved `Date` boundary pair for a filter preset. */
+export interface ResolvedDateTimeRange {
+  from: Date;
+  to: Date;
 }
 
-/** One bar in either collections chart. */
-export interface CollectionChartDatum {
+/** The `<input type="datetime-local">` controlled values shown in custom mode. */
+export interface CollectionsDateTimeInputs {
+  fromDateTime: string;
+  toDateTime: string;
+}
+
+/** What the filter hands up to the page once a range (+ optional employee) is ready. */
+export interface CollectionsSubmittedQuery {
+  /** `YYYY-MM-DD HH:MM:SS`, ready for the API. */
+  fromDate: string;
+  toDate: string;
+  employeePk?: number;
+}
+
+/**
+ * One employee option from the dropdown.
+ *
+ * NOTE: the exact response shape for
+ * `GET /api/v2/dropdown/employees/?department_in=07,08&page_size=100`
+ * wasn't provided, so this assumes the same envelope as the other
+ * dropdown endpoint already used in this app (sub-accounts):
+ * `{ success, message, data: { count, next, previous, results: [{ pk, name }] } }`.
+ * Adjust `EmployeesDropdownApiResponse`/the mapping in `employeesApi.ts`
+ * if the real shape differs.
+ */
+export interface EmployeeOption {
+  pk: number;
   name: string;
-  value: number;
-  /** Only populated for the employees chart (extra tooltip detail). */
-  transactionsCount?: number;
+}
+
+export interface EmployeesDropdownPage {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: EmployeeOption[];
+}
+
+export interface EmployeesDropdownApiResponse {
+  success: boolean;
+  message: string;
+  data: EmployeesDropdownPage;
+  errors: unknown[];
 }

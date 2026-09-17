@@ -1,26 +1,31 @@
 import DashboardHeader from '../components/layout/DashboardHeader';
 import CollectionsDateFilter from '../components/employee-collections/CollectionsDateFilter';
-import CollectionsSection from '../components/employee-collections/CollectionsSection';
-import CollectionsBarChart from '../components/employee-collections/CollectionsBarChart';
+import RankingList from '../components/rankings/RankingList';
+import EmployeeTotalCard from '../components/employee-collections/EmployeeTotalCard';
 import CollectionsLoadingSkeleton from '../components/employee-collections/CollectionsLoadingSkeleton';
 import CollectionsEmptyState from '../components/employee-collections/CollectionsEmptyState';
 import CollectionsErrorState from '../components/employee-collections/CollectionsErrorState';
 
+import { useCollectionsEmployees } from '../hooks/useCollectionsEmployees';
 import { useEmployeeCollections } from '../hooks/useEmployeeCollections';
 
 export default function EmployeeCollectionsPage(): JSX.Element {
+  const { employees, isLoading: employeesLoading } = useCollectionsEmployees();
+
   const {
+    status,
     isLoading,
     isError,
     isEmpty,
-    hasData,
-    employeesChartData,
-    topClientsChartData,
-    employeesTotal,
-    // topClientsTotal,
+    selectedEmployeePk,
+    employeesRanking,
+    clientsRanking,
+    totalCollection,
     runReport,
     retry,
   } = useEmployeeCollections();
+
+  const selectedEmployee = employees.find((e) => e.pk === selectedEmployeePk);
 
   return (
     <div>
@@ -29,42 +34,54 @@ export default function EmployeeCollectionsPage(): JSX.Element {
         subtitle="تحليل تحصيلات البائعين وأفضل عملائهم خلال الفترة المحددة"
       />
 
-      <CollectionsDateFilter onSubmit={runReport} isLoading={isLoading} />
+      <CollectionsDateFilter
+        employees={employees}
+        employeesLoading={employeesLoading}
+        onSubmit={runReport}
+        isLoading={isLoading}
+      />
 
       {isLoading && <CollectionsLoadingSkeleton />}
 
       {!isLoading && isError && <CollectionsErrorState onRetry={retry} />}
 
-      {!isLoading && !isError && isEmpty && <CollectionsEmptyState />}
+      {!isLoading && !isError && status === 'success' && (
+        selectedEmployeePk !== undefined ? (
+          // A specific vendor is selected: show their name + total, then
+          // every client they collected from during the period.
+          <>
+            <EmployeeTotalCard
+              employeeName={selectedEmployee?.name ?? '—'}
+              total={totalCollection}
+            />
 
-      {!isLoading && !isError && hasData && (
-        <>
-          <CollectionsSection
-            title="تحصيلات البائعين"
-            icon="💵"
-            totalLabel="إجمالي تحصيلات البائعين"
-            total={employeesTotal}
-          >
-            <CollectionsBarChart
-              data={employeesChartData}
-              barColor="#1688e8"
-              valueLabel="قيمة التحصيل"
-              emptyMessage="لا توجد بيانات تحصيل لهذه الفترة"
+            <RankingList
+              title="العملاء اللي تم التحصيل منهم"
+              items={clientsRanking}
+              emptyLabel="لا توجد تحصيلات لهذا البائع في هذه الفترة"
             />
-          </CollectionsSection>
-          <CollectionsSection
-            title="العملاء الأكثر تحصيلًا"
-            icon="🏆"
-          >
-            <CollectionsBarChart
-              data={topClientsChartData}
-              barColor="#16a34a"
-              valueLabel="قيمة التحصيل"
-              emptyMessage="لا توجد بيانات عملاء لهذه الفترة"
-              visibleColumns={10}
+          </>
+        ) : isEmpty ? (
+          <CollectionsEmptyState />
+        ) : (
+          // No vendor filter: every vendor's collections, ranked, with
+          // medals on the top 3 — then every client, ranked, across all
+          // vendors.
+          <>
+            <RankingList
+              title="تحصيلات البائعين"
+              items={employeesRanking}
+              emptyLabel="لا توجد بيانات تحصيل لهذه الفترة"
+              showMedalsForTop3
             />
-          </CollectionsSection>
-        </>
+
+            <RankingList
+              title="أكثر العملاء تم التحصيل منهم"
+              items={clientsRanking}
+              emptyLabel="لا توجد بيانات عملاء لهذه الفترة"
+            />
+          </>
+        )
       )}
     </div>
   );

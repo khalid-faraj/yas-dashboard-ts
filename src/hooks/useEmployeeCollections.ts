@@ -1,51 +1,54 @@
 import { useCallback, useMemo, useState } from 'react';
 import { getEmployeeCashCollections } from '../api/employeeCollectionsApi';
 import {
-  buildEmployeesChartData,
-  buildTopClientsChartData,
-  getEmployeesCollectionTotal,
-  getTopClientsCollectionTotal,
+  buildClientsRanking,
+  buildEmployeesRanking,
+  getTotalCollection,
 } from '../utils/employeeCollections';
 import type { ApiError } from '../types/api';
 import type { ReportStatus } from '../types/sales';
 import type {
-  CollectionChartDatum,
-  CollectionsDateRange,
-  EmployeeCollectionRecord,
+  CashCollectionRecord,
+  CollectionsSubmittedQuery,
 } from '../types/employeeCollections';
+import type { RankingListItem } from '../components/rankings/RankingList';
 
 export interface UseEmployeeCollectionsResult {
+  status: ReportStatus;
   isLoading: boolean;
   isError: boolean;
   isEmpty: boolean;
-  hasData: boolean;
   error: ApiError | null;
-  employeesChartData: CollectionChartDatum[];
-  topClientsChartData: CollectionChartDatum[];
-  employeesTotal: number;
-  topClientsTotal: number;
-  runReport: (range: CollectionsDateRange) => Promise<void>;
+  /** The employee pk currently filtered to, if any. */
+  selectedEmployeePk: number | undefined;
+  employeesRanking: RankingListItem[];
+  clientsRanking: RankingListItem[];
+  totalCollection: number;
+  runReport: (query: CollectionsSubmittedQuery) => Promise<void>;
   retry: () => void;
 }
 
 export function useEmployeeCollections(): UseEmployeeCollectionsResult {
-  const [records, setRecords] = useState<EmployeeCollectionRecord[]>([]);
+  const [records, setRecords] = useState<CashCollectionRecord[]>([]);
   const [status, setStatus] = useState<ReportStatus>('idle');
   const [error, setError] = useState<ApiError | null>(null);
-  const [lastRange, setLastRange] = useState<CollectionsDateRange | null>(null);
+  const [lastQuery, setLastQuery] = useState<CollectionsSubmittedQuery | null>(
+    null
+  );
 
-  const runReport = useCallback(async (range: CollectionsDateRange) => {
+  const runReport = useCallback(async (query: CollectionsSubmittedQuery) => {
     setStatus('loading');
     setError(null);
 
     try {
       const results = await getEmployeeCashCollections({
-        from_date: range.fromDate,
-        to_date: range.toDate,
+        from_date: query.fromDate,
+        to_date: query.toDate,
+        employeePks: query.employeePk !== undefined ? [query.employeePk] : undefined,
       });
 
       setRecords(results);
-      setLastRange(range);
+      setLastQuery(query);
       setStatus('success');
     } catch (err) {
       setError(err as ApiError);
@@ -54,41 +57,36 @@ export function useEmployeeCollections(): UseEmployeeCollectionsResult {
   }, []);
 
   const retry = useCallback(() => {
-    if (lastRange) {
-      runReport(lastRange);
+    if (lastQuery) {
+      runReport(lastQuery);
     }
-  }, [lastRange, runReport]);
+  }, [lastQuery, runReport]);
 
-  const employeesChartData = useMemo(
-    () => buildEmployeesChartData(records),
+  const employeesRanking = useMemo(
+    () => buildEmployeesRanking(records),
     [records]
   );
 
-  const topClientsChartData = useMemo(
-    () => buildTopClientsChartData(records),
+  const clientsRanking = useMemo(
+    () => buildClientsRanking(records),
     [records]
   );
 
-  const employeesTotal = useMemo(
-    () => getEmployeesCollectionTotal(records),
-    [records]
-  );
-
-  const topClientsTotal = useMemo(
-    () => getTopClientsCollectionTotal(records),
+  const totalCollection = useMemo(
+    () => getTotalCollection(records),
     [records]
   );
 
   return {
+    status,
     isLoading: status === 'loading',
     isError: status === 'error',
     isEmpty: status === 'success' && records.length === 0,
-    hasData: status === 'success' && records.length > 0,
     error,
-    employeesChartData,
-    topClientsChartData,
-    employeesTotal,
-    topClientsTotal,
+    selectedEmployeePk: lastQuery?.employeePk,
+    employeesRanking,
+    clientsRanking,
+    totalCollection,
     runReport,
     retry,
   };

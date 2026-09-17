@@ -4,11 +4,10 @@ import type { ApiError } from "../types/api";
 
 const AUTH_TOKEN_STORAGE_KEY = "auth_token";
 
-function getAccessToken(): string | null {
-  return localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
-  // return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg5NTM2NjIxLCJpYXQiOjE3ODk0NTAyMjEsImp0aSI6IjFkZTQ5ZGE0M2RiMTQ1MWE5NTA2ZjJhODcwNmFhYTFkIiwidXNlcl9pZCI6IjM0In0.pQkkgIZsWBqEUX-PjhK6Kz0vvHhfArqmdZOOcEOd638";
+export function getAccessToken(): string | null {
+  //return localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
+  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg5NzA5MTAwLCJpYXQiOjE3ODk2MjI3MDAsImp0aSI6ImU3MDlhNWE1NDc4MTQ4ZTlhOWVmNTdjMmQ4MzkwOTYwIiwidXNlcl9pZCI6IjYifQ.LgTDU9Ai-JIb5_EXKUNSibCnlGY4uuh7i_gP0gR-Ino";
 }
-
 
 const baseURL = "https://yas.it.com";
 
